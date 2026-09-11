@@ -3,11 +3,194 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>photosalbum</title>
-    <meta name="description" content="Blank repository workspace ready for development." />
+    <title>Photos Album</title>
+    <meta name="description" content="A 3x3 photo grid album displaying nine equal dimension photos with titles." />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+        padding: 24px 16px;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      header {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+      }
+      p.subtitle {
+        font-size: 14px;
+        color: #64748b;
+      }
+      .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 16px;
+        width: 100%;
+      }
+      .photo-card {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+      }
+      .image-wrapper {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* 1:1 Aspect Ratio (equal dimensions) */
+        overflow: hidden;
+        background-color: #f1f5f9;
+      }
+      .image-wrapper img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .title-wrapper {
+        padding: 12px 14px;
+        background-color: #ffffff;
+      }
+      .photo-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #0f172a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      @media (max-width: 640px) {
+        .photo-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+        .title-wrapper {
+          padding: 8px 10px;
+        }
+        .photo-title {
+          font-size: 12px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <div class="container">
+        <header>
+          <h1>Photo Album</h1>
+          <p class="subtitle">3 &times; 3 Photo Grid</p>
+        </header>
+
+        <main class="photo-grid">
+          <!-- Photo 1 -->
+          <article class="photo-card" id="photo-card-1">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo1/600/600" alt="Mountain Vista" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Mountain Vista</h2>
+            </div>
+          </article>
+
+          <!-- Photo 2 -->
+          <article class="photo-card" id="photo-card-2">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo2/600/600" alt="Ocean Sunset" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Ocean Sunset</h2>
+            </div>
+          </article>
+
+          <!-- Photo 3 -->
+          <article class="photo-card" id="photo-card-3">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo3/600/600" alt="Forest Trail" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Forest Trail</h2>
+            </div>
+          </article>
+
+          <!-- Photo 4 -->
+          <article class="photo-card" id="photo-card-4">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo4/600/600" alt="Urban Skyline" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Urban Skyline</h2>
+            </div>
+          </article>
+
+          <!-- Photo 5 -->
+          <article class="photo-card" id="photo-card-5">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo5/600/600" alt="Desert Dunes" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Desert Dunes</h2>
+            </div>
+          </article>
+
+          <!-- Photo 6 -->
+          <article class="photo-card" id="photo-card-6">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo6/600/600" alt="Misty Lake" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Misty Lake</h2>
+            </div>
+          </article>
+
+          <!-- Photo 7 -->
+          <article class="photo-card" id="photo-card-7">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo7/600/600" alt="Autumn Pathway" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Autumn Pathway</h2>
+            </div>
+          </article>
+
+          <!-- Photo 8 -->
+          <article class="photo-card" id="photo-card-8">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo8/600/600" alt="Canyon Gorge" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Canyon Gorge</h2>
+            </div>
+          </article>
+
+          <!-- Photo 9 -->
+          <article class="photo-card" id="photo-card-9">
+            <div class="image-wrapper">
+              <img src="https://picsum.photos/seed/photo9/600/600" alt="Snowy Peaks" loading="lazy" />
+            </div>
+            <div class="title-wrapper">
+              <h2 class="photo-title">Snowy Peaks</h2>
+            </div>
+          </article>
+        </main>
+      </div>
+    </div>
   </body>
 </html>

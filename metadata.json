@@ -1,6 +1,6 @@
 {
-  "name": "photosalbum",
-  "description": "Blank repository workspace ready for development.",
+  "name": "Photos Album",
+  "description": "A 3x3 photo grid album displaying nine equal dimension photos with titles.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
