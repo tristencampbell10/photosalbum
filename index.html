@@ -97,6 +97,28 @@
       .photo-card:hover .image-wrapper img {
         transform: scale(1.04);
       }
+      .video-indicator-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        color: #f1f5f9;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 9999px;
+        padding: 4px 9px;
+        font-size: 11px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        z-index: 2;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+      .video-indicator-badge svg {
+        color: #ef4444;
+      }
       .title-wrapper {
         padding: 13px 15px;
         background-color: rgba(15, 23, 42, 0.95);
@@ -200,7 +222,7 @@
         border: 1px solid rgba(255, 255, 255, 0.14);
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 35px rgba(59, 130, 246, 0.2);
         border-radius: 20px;
-        max-width: 580px;
+        max-width: 620px;
         width: 100%;
         overflow: hidden;
         transform: scale(0.92) translateY(12px);
@@ -208,6 +230,7 @@
         display: flex;
         flex-direction: column;
         position: relative;
+        max-height: 90vh;
       }
       .modal-backdrop.open .modal-content {
         transform: scale(1) translateY(0);
@@ -219,7 +242,7 @@
         width: 36px;
         height: 36px;
         border-radius: 50%;
-        background: rgba(15, 23, 42, 0.75);
+        background: rgba(15, 23, 42, 0.85);
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: #f1f5f9;
         font-size: 20px;
@@ -227,7 +250,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        z-index: 10;
+        z-index: 20;
         transition: background 0.2s, transform 0.2s;
       }
       .modal-close-btn:hover {
@@ -235,9 +258,14 @@
         border-color: rgba(239, 68, 68, 1);
         transform: scale(1.08);
       }
+      .modal-media-container {
+        width: 100%;
+        background: #020617;
+        position: relative;
+      }
       .modal-img-wrapper {
         width: 100%;
-        max-height: 340px;
+        height: 320px;
         overflow: hidden;
         background: #020617;
         display: flex;
@@ -247,11 +275,88 @@
       .modal-img-wrapper img {
         width: 100%;
         height: 100%;
-        max-height: 340px;
         object-fit: cover;
       }
+      .modal-video-wrapper {
+        width: 100%;
+        height: 340px;
+        display: none;
+        position: relative;
+        background: #000000;
+      }
+      .modal-video-wrapper.active {
+        display: block;
+      }
+      .modal-video-wrapper video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000000;
+        outline: none;
+      }
+      .modal-video-wrapper iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .modal-tabs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px 0;
+        background: rgba(15, 23, 42, 0.98);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        flex-wrap: wrap;
+      }
+      .modal-tab-btn {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 8px 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .modal-tab-btn:hover {
+        color: #f1f5f9;
+      }
+      .modal-tab-btn.active {
+        color: #60a5fa;
+        border-color: #3b82f6;
+      }
+      .youtube-direct-btn {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #dc2626;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        padding: 6px 12px;
+        border-radius: 9999px;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.15s;
+        box-shadow: 0 2px 6px rgba(220, 38, 38, 0.35);
+        margin-bottom: 8px;
+      }
+      .youtube-direct-btn:hover {
+        background: #b91c1c;
+        transform: translateY(-1px);
+        color: #ffffff;
+      }
+      .youtube-direct-btn svg {
+        flex-shrink: 0;
+      }
       .modal-body {
-        padding: 22px 24px 26px;
+        padding: 20px 24px 24px;
+        overflow-y: auto;
       }
       .modal-category {
         display: inline-block;
@@ -285,6 +390,241 @@
         color: #60a5fa;
         margin-top: 6px;
         font-weight: 500;
+      }
+
+      /* Top-Right Music Player Widget */
+      .music-widget {
+        position: fixed;
+        top: 16px;
+        right: 18px;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        font-family: inherit;
+      }
+      .music-pill {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(15, 23, 42, 0.94);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 9999px;
+        padding: 6px 14px 6px 6px;
+        box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.2);
+        transition: all 0.25s ease;
+      }
+      .music-pill:hover {
+        border-color: rgba(96, 165, 250, 0.45);
+        box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.7), 0 0 26px rgba(59, 130, 246, 0.35);
+      }
+      .music-pill.is-playing {
+        border-color: rgba(59, 130, 246, 0.7);
+        box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.6), 0 0 24px rgba(37, 99, 235, 0.45);
+      }
+      .music-play-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        border: none;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(239, 68, 68, 0.5);
+        transition: transform 0.18s ease, background 0.2s, box-shadow 0.2s;
+        flex-shrink: 0;
+      }
+      .music-play-btn:hover {
+        transform: scale(1.08);
+        background: linear-gradient(135deg, #f87171, #ef4444);
+        box-shadow: 0 6px 18px rgba(239, 68, 68, 0.7);
+      }
+      .music-play-btn:active {
+        transform: scale(0.96);
+      }
+      .music-play-btn svg {
+        flex-shrink: 0;
+      }
+      .music-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.25;
+        user-select: none;
+        cursor: pointer;
+      }
+      .music-track-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #f8fafc;
+        letter-spacing: -0.01em;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .music-track-badge {
+        font-size: 9px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #60a5fa;
+        background: rgba(37, 99, 235, 0.22);
+        border: 1px solid rgba(96, 165, 250, 0.32);
+        padding: 1px 5px;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+      .music-pill.is-playing .music-track-badge {
+        color: #4ade80;
+        background: rgba(34, 197, 94, 0.2);
+        border-color: rgba(74, 222, 128, 0.35);
+      }
+      .music-track-artist {
+        font-size: 11px;
+        font-weight: 500;
+        color: #94a3b8;
+      }
+      .music-equalizer {
+        display: flex;
+        align-items: flex-end;
+        gap: 2.5px;
+        height: 16px;
+        padding: 0 2px;
+      }
+      .music-equalizer .eq-bar {
+        width: 3px;
+        height: 4px;
+        background: #64748b;
+        border-radius: 2px;
+        transition: height 0.2s ease, background 0.2s ease;
+      }
+      .music-pill.is-playing .music-equalizer .eq-bar {
+        background: #38bdf8;
+        animation: eqPulse 0.9s ease-in-out infinite alternate;
+      }
+      .music-pill.is-playing .music-equalizer .eq-bar-1 { animation-delay: 0.0s; height: 14px; }
+      .music-pill.is-playing .music-equalizer .eq-bar-2 { animation-delay: 0.22s; height: 8px; }
+      .music-pill.is-playing .music-equalizer .eq-bar-3 { animation-delay: 0.44s; height: 16px; }
+      .music-pill.is-playing .music-equalizer .eq-bar-4 { animation-delay: 0.15s; height: 11px; }
+
+      @keyframes eqPulse {
+        0% { height: 4px; }
+        50% { height: 16px; }
+        100% { height: 6px; }
+      }
+
+      .music-action-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #94a3b8;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .music-action-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Floating Mini Video Drawer for Shot Callin */
+      .music-video-drawer {
+        width: 280px;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid transparent;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.7);
+        transition: all 0.25s ease;
+        height: 0;
+        opacity: 0;
+        pointer-events: none;
+        margin-top: 0;
+      }
+      .music-video-drawer.open {
+        height: auto;
+        opacity: 1;
+        pointer-events: auto;
+        margin-top: 8px;
+        border-color: rgba(255, 255, 255, 0.16);
+      }
+      .music-drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background: rgba(30, 41, 59, 0.9);
+        font-size: 11px;
+        font-weight: 600;
+        color: #cbd5e1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .music-drawer-close {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 0 4px;
+        line-height: 1;
+      }
+      .music-drawer-close:hover {
+        color: #ffffff;
+      }
+      .music-iframe-container {
+        width: 100%;
+        padding-top: 56.25%;
+        position: relative;
+        background: #000000;
+      }
+      .music-iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      @media (max-width: 640px) {
+        .music-widget {
+          top: 10px;
+          right: 10px;
+          gap: 6px;
+        }
+        .music-pill {
+          padding: 4px 10px 4px 4px;
+          gap: 8px;
+        }
+        .music-play-btn {
+          width: 34px;
+          height: 34px;
+        }
+        .music-track-title {
+          font-size: 12px;
+        }
+        .music-track-artist {
+          font-size: 10px;
+        }
+        .music-video-drawer {
+          width: 250px;
+        }
+        header {
+          padding-top: 28px;
+        }
       }
     </style>
   </head>
@@ -394,6 +734,108 @@
       </svg>
     </div>
 
+    <!-- Top-Right Music Player Option: NBA YoungBoy - Shot Callin -->
+    <aside class="music-widget" id="music-widget" aria-label="Music Player Widget">
+      <div class="music-pill" id="music-pill">
+        <button 
+          type="button" 
+          class="music-play-btn" 
+          id="music-play-btn" 
+          aria-label="Play Shot Calling by NBA YoungBoy"
+          title="Play Shot Calling by NBA YoungBoy"
+        >
+          <!-- Play Triangle Icon -->
+          <svg id="music-play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6 3 20 12 6 21 6 3"></polygon>
+          </svg>
+          <!-- Pause Bars Icon -->
+          <svg id="music-pause-icon" style="display: none;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+          </svg>
+        </button>
+
+        <div class="music-info" id="music-info-toggle" title="Click to view/hide official music video">
+          <div class="music-track-title">
+            <span>Shot Callin</span>
+            <span class="music-track-badge" id="music-status-badge">Music</span>
+          </div>
+          <div class="music-track-artist">NBA YoungBoy</div>
+        </div>
+
+        <div class="music-equalizer" id="music-equalizer" title="Equalizer visualizer">
+          <span class="eq-bar eq-bar-1"></span>
+          <span class="eq-bar eq-bar-2"></span>
+          <span class="eq-bar eq-bar-3"></span>
+          <span class="eq-bar eq-bar-4"></span>
+        </div>
+
+        <!-- Toggle Music Video / Mini Drawer Button -->
+        <button 
+          type="button" 
+          class="music-action-btn" 
+          id="music-video-toggle-btn" 
+          title="Toggle music video preview"
+          aria-label="Toggle music video drawer"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+          </svg>
+        </button>
+
+        <!-- Mute / Unmute Button -->
+        <button 
+          type="button" 
+          class="music-action-btn" 
+          id="music-mute-btn" 
+          title="Mute / Unmute audio"
+          aria-label="Mute or unmute music"
+        >
+          <svg id="music-vol-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg id="music-mute-icon" style="display: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Expandable Mini Video Drawer for Shot Callin -->
+      <div class="music-video-drawer" id="music-video-drawer">
+        <div class="music-drawer-header">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>NBA YoungBoy &bull; Shot Callin</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <a 
+              href="https://www.youtube.com/watch?v=HqVOAQrQUfs" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style="color: #60a5fa; font-size: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 2px; padding: 2px 6px; border-radius: 4px; background: rgba(59, 130, 246, 0.15);"
+              title="Open video on YouTube in a new tab"
+            >
+              YouTube ↗
+            </a>
+            <button type="button" class="music-drawer-close" id="music-drawer-close" aria-label="Minimize video drawer">&times;</button>
+          </div>
+        </div>
+        <div class="music-iframe-container">
+          <iframe 
+            id="music-yt-iframe" 
+            src="" 
+            title="NBA YoungBoy - Shot Callin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </aside>
+
     <div id="root">
       <div class="container">
         <header>
@@ -408,10 +850,16 @@
             class="photo-card" 
             id="photo-card-1"
             data-title="Game Breaker"
-            data-category="Gridiron Dominance"
-            data-desc="Elite playmaker cutting sharply upfield in full stride, evading defenders with dynamic footwork, explosive speed, and razor-sharp vision in front of a packed stadium."
+            data-category="Super Bowl XLIV Champions"
+            data-desc="Super Bowl XLIV MVP Drew Brees and the New Orleans Saints captured their legendary championship victory. Brees completed 32 of 39 passes with 2 touchdowns and 288 passing yards, lifting the Vince Lombardi Trophy in triumph."
+            data-youtube-id="_y4Kz0BEDOY"
+            data-video-title="Super Bowl XLIV Trophy Presentation"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/nfl-first-photo.jpg" alt="Football Player Making Cut Upfield" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -425,9 +873,15 @@
             id="photo-card-2"
             data-title="Slaughter vs. VT"
             data-category="College Matchup"
-            data-desc="Gridiron showdown capturing defensive back Slaughter matching up against the Virginia Tech Hokies offense, anticipating the route and breaking on the ball."
+            data-desc="Gridiron showdown capturing defensive back Doneiko Slaughter matching up against the Virginia Tech offense, anticipating the route and breaking on the ball."
+            data-youtube-id="R8N5VVBk-Bc"
+            data-video-title="Doneiko Slaughter Highlights"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/slaughter-vs-vt.jpg" alt="Slaughter vs VT Game Action" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -442,8 +896,14 @@
             data-title="arch throwing tha bih"
             data-category="Quarterback Cannon"
             data-desc="Arch in the pocket stepping into a clean throwing motion, cocking back and launching a deep spiral downfield into tight coverage under the stadium lights."
+            data-youtube-id="uUw9aFzTgbM"
+            data-video-title="Arch Manning 4 TDs Highlights"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/nfl-game.jpg" alt="Arch Throwing Play" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -459,8 +919,14 @@
             data-title="Vicari vs. Towson"
             data-category="NCAA Battle"
             data-desc="Relentless trenches and open-field battle pitting Vicari against the Towson Tigers defense, showcasing split-second read-and-react defensive leverage."
+            data-youtube-id="aF9zckBw0ww"
+            data-video-title="Towson Tigers Football Highlights"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/vicari-towson.jpg" alt="Vicari Towson Football Action" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -475,8 +941,14 @@
             data-title="Oklahoma Victory"
             data-category="Team Celebration"
             data-desc="The Oklahoma Sooners erupting in jubilation following a decisive fourth-quarter goal-line stand and game-sealing touchdown in front of a roaring home crowd."
+            data-youtube-id="SEVpEGbCf2M"
+            data-video-title="Oklahoma Game-Winning Celebration"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/ou-celebration.jpg" alt="Oklahoma Sooners Football Celebration" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -491,8 +963,14 @@
             data-title="Fighting Irish"
             data-category="Historic Tradition"
             data-desc="Notre Dame Fighting Irish taking the field with their iconic golden helmets and navy jerseys, locked in for an intense prime-time collegiate rivalry showdown."
+            data-youtube-id="kUVF8IRcjBo"
+            data-video-title="Notre Dame Entrance & Hype"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/notre-dame.jpg" alt="Notre Dame Fighting Irish Football Action" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -508,8 +986,14 @@
             data-title="mali toney"
             data-category="Gridiron Star"
             data-desc="Mali Toney showing explosive burst off the line of scrimmage, cutting through defensive pursuit with signature agility, vision, and determination."
+            data-youtube-id="_Cvx037eKBo"
+            data-video-title="Malachi Toney Highlights"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/college-football-action.jpg" alt="College Football Game Action" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -524,8 +1008,14 @@
             data-title="On The Run"
             data-category="Ball Carrier Play"
             data-desc="Ball carrier on the perimeter tucking the football high and tight, stiff-arming oncoming tacklers while turning the corner toward the pylon."
+            data-youtube-id="5gjANQ36INM"
+            data-video-title="Breakaway Touchdown Run"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/football-player-running.jpg" alt="Football Player Running Play" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -540,8 +1030,14 @@
             data-title="Washington St. vs. Boise St."
             data-category="Northwest Clash"
             data-desc="High-stakes matchup between Washington State Cougars and Boise State Broncos, battling through trench warfare and contested aerial passes."
+            data-youtube-id="GIKfNtB-0-A"
+            data-video-title="Boise State vs. WSU Highlights"
           >
             <div class="image-wrapper">
+              <span class="video-indicator-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+              </span>
               <img src="/images/washington-st-boise-st.jpg" alt="Washington State vs Boise State Football Action" loading="lazy" />
             </div>
             <div class="title-wrapper">
@@ -552,13 +1048,52 @@
       </div>
     </div>
 
-    <!-- Description Modal Popup -->
+    <!-- Description & Video Modal Popup -->
     <div id="photo-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
       <div class="modal-content" id="modal-content">
         <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close photo description">&times;</button>
-        <div class="modal-img-wrapper">
-          <img id="modal-img" src="" alt="Selected photo preview" />
+        
+        <!-- Media Container (Image and/or YouTube Video) -->
+        <div class="modal-media-container">
+          <div class="modal-img-wrapper" id="modal-img-container">
+            <img id="modal-img" src="" alt="Selected photo preview" />
+          </div>
+          <div class="modal-video-wrapper" id="modal-video-container">
+            <iframe 
+              id="modal-youtube-iframe" 
+              src="" 
+              title="YouTube video player" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" 
+              allowfullscreen
+            ></iframe>
+          </div>
         </div>
+
+        <!-- Optional Tabs if card has both photo & YouTube video -->
+        <div class="modal-tabs" id="modal-tabs" style="display: none;">
+          <button type="button" class="modal-tab-btn active" id="tab-photo-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+            <span>Photo</span>
+          </button>
+          <button type="button" class="modal-tab-btn" id="tab-video-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#ef4444"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span id="tab-video-label">YouTube Video</span>
+          </button>
+          <a 
+            id="modal-youtube-link" 
+            href="#" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="youtube-direct-btn"
+            title="Open video directly on YouTube in a new tab"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#ffffff"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>Watch on YouTube</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+
         <div class="modal-body">
           <span class="modal-category" id="modal-category">Game Detail</span>
           <h2 class="modal-title" id="modal-title">Photo Title</h2>
@@ -571,17 +1106,55 @@
       (function() {
         const modal = document.getElementById('photo-modal');
         const modalImg = document.getElementById('modal-img');
+        const modalImgContainer = document.getElementById('modal-img-container');
+        const modalVideoContainer = document.getElementById('modal-video-container');
+        const modalYoutubeIframe = document.getElementById('modal-youtube-iframe');
+        const modalYoutubeLink = document.getElementById('modal-youtube-link');
+        const modalTabs = document.getElementById('modal-tabs');
+        const tabPhotoBtn = document.getElementById('tab-photo-btn');
+        const tabVideoBtn = document.getElementById('tab-video-btn');
+        const tabVideoLabel = document.getElementById('tab-video-label');
         const modalTitle = document.getElementById('modal-title');
         const modalCategory = document.getElementById('modal-category');
         const modalDesc = document.getElementById('modal-desc');
         const closeBtn = document.getElementById('modal-close-btn');
         const cards = document.querySelectorAll('.photo-card');
 
+        let currentYoutubeId = null;
+
+        function showPhotoView() {
+          modalImgContainer.style.display = 'flex';
+          modalVideoContainer.classList.remove('active');
+          tabPhotoBtn.classList.add('active');
+          tabVideoBtn.classList.remove('active');
+          if (modalYoutubeIframe) {
+            modalYoutubeIframe.src = '';
+          }
+        }
+
+        function showVideoView() {
+          modalImgContainer.style.display = 'none';
+          modalVideoContainer.classList.add('active');
+          tabPhotoBtn.classList.remove('active');
+          tabVideoBtn.classList.add('active');
+          if (currentYoutubeId && modalYoutubeIframe) {
+            const embedUrl = 'https://www.youtube.com/embed/' + currentYoutubeId + '?autoplay=1&enablejsapi=1&rel=0';
+            if (modalYoutubeIframe.src !== embedUrl) {
+              modalYoutubeIframe.src = embedUrl;
+            }
+          }
+        }
+
+        tabPhotoBtn.addEventListener('click', showPhotoView);
+        tabVideoBtn.addEventListener('click', showVideoView);
+
         function openModal(card) {
           const img = card.querySelector('img');
           const title = card.getAttribute('data-title') || card.querySelector('.photo-title').textContent;
           const category = card.getAttribute('data-category') || 'Football Highlight';
           const desc = card.getAttribute('data-desc') || 'Exciting football game day photo.';
+          const youtubeId = card.getAttribute('data-youtube-id');
+          const videoTitle = card.getAttribute('data-video-title') || 'YouTube Video';
 
           if (img) {
             modalImg.src = img.src;
@@ -590,6 +1163,31 @@
           modalTitle.textContent = title;
           modalCategory.textContent = category;
           modalDesc.textContent = desc;
+          if (tabVideoLabel) {
+            tabVideoLabel.textContent = videoTitle;
+          }
+
+          currentYoutubeId = youtubeId || null;
+
+          // If background music is playing, pause it gracefully while watching highlight video
+          if (isMusicPlaying) {
+            pauseMusic(true);
+          }
+
+          if (youtubeId) {
+            modalTabs.style.display = 'flex';
+            if (modalYoutubeLink) {
+              modalYoutubeLink.href = 'https://www.youtube.com/watch?v=' + youtubeId;
+              modalYoutubeLink.style.display = 'inline-flex';
+            }
+            showVideoView();
+          } else {
+            modalTabs.style.display = 'none';
+            if (modalYoutubeLink) {
+              modalYoutubeLink.style.display = 'none';
+            }
+            showPhotoView();
+          }
 
           modal.classList.add('open');
           modal.setAttribute('aria-hidden', 'false');
@@ -600,6 +1198,16 @@
           modal.classList.remove('open');
           modal.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          if (modalYoutubeIframe) {
+            modalYoutubeIframe.src = '';
+          }
+          currentYoutubeId = null;
+
+          // Resume background music if it was playing prior to opening the modal
+          if (pausedByModal) {
+            playMusic();
+            pausedByModal = false;
+          }
         }
 
         cards.forEach(card => {
@@ -627,6 +1235,144 @@
           if (e.key === 'Escape' && modal.classList.contains('open')) {
             closeModal();
           }
+        });
+
+        // ----------------------------------------------------
+        // Top-Right Music Player: "Shot Callin" by NBA YoungBoy
+        // ----------------------------------------------------
+        const musicPill = document.getElementById('music-pill');
+        const musicPlayBtn = document.getElementById('music-play-btn');
+        const musicPlayIcon = document.getElementById('music-play-icon');
+        const musicPauseIcon = document.getElementById('music-pause-icon');
+        const musicStatusBadge = document.getElementById('music-status-badge');
+        const musicInfoToggle = document.getElementById('music-info-toggle');
+        const musicVideoToggleBtn = document.getElementById('music-video-toggle-btn');
+        const musicMuteBtn = document.getElementById('music-mute-btn');
+        const musicVolIcon = document.getElementById('music-vol-icon');
+        const musicMuteIcon = document.getElementById('music-mute-icon');
+        const musicVideoDrawer = document.getElementById('music-video-drawer');
+        const musicDrawerClose = document.getElementById('music-drawer-close');
+        const musicYtIframe = document.getElementById('music-yt-iframe');
+
+        const YB_VIDEO_ID = 'HqVOAQrQUfs';
+        let isMusicPlaying = false;
+        let isMusicMuted = false;
+        let isIframeLoaded = false;
+        let pausedByModal = false;
+
+        function updateMusicUI(playing) {
+          isMusicPlaying = playing;
+          if (playing) {
+            musicPlayIcon.style.display = 'none';
+            musicPauseIcon.style.display = 'block';
+            musicPill.classList.add('is-playing');
+            musicStatusBadge.textContent = 'Playing';
+            musicPlayBtn.setAttribute('title', 'Pause Shot Callin');
+            musicPlayBtn.setAttribute('aria-label', 'Pause Shot Callin by NBA YoungBoy');
+          } else {
+            musicPlayIcon.style.display = 'block';
+            musicPauseIcon.style.display = 'none';
+            musicPill.classList.remove('is-playing');
+            musicStatusBadge.textContent = isIframeLoaded ? 'Paused' : 'Music';
+            musicPlayBtn.setAttribute('title', 'Play Shot Calling by NBA YoungBoy');
+            musicPlayBtn.setAttribute('aria-label', 'Play Shot Calling by NBA YoungBoy');
+          }
+        }
+
+        function playMusic() {
+          if (!isIframeLoaded) {
+            // First time play: load embed with autoplay=1, enablejsapi=1
+            musicYtIframe.src = 'https://www.youtube.com/embed/' + YB_VIDEO_ID + '?autoplay=1&enablejsapi=1&rel=0&playsinline=1';
+            isIframeLoaded = true;
+          } else if (musicYtIframe.contentWindow) {
+            try {
+              musicYtIframe.contentWindow.postMessage(JSON.stringify({
+                event: 'command',
+                func: 'playVideo',
+                args: []
+              }), '*');
+            } catch (err) {
+              console.log('Error triggering playVideo:', err);
+            }
+          }
+          updateMusicUI(true);
+        }
+
+        function pauseMusic(fromModal = false) {
+          if (isIframeLoaded && musicYtIframe.contentWindow) {
+            try {
+              musicYtIframe.contentWindow.postMessage(JSON.stringify({
+                event: 'command',
+                func: 'pauseVideo',
+                args: []
+              }), '*');
+            } catch (err) {
+              console.log('Error triggering pauseVideo:', err);
+            }
+          }
+          updateMusicUI(false);
+          if (fromModal) {
+            pausedByModal = true;
+          }
+        }
+
+        function toggleMusic() {
+          if (isMusicPlaying) {
+            pauseMusic(false);
+          } else {
+            playMusic();
+          }
+        }
+
+        function toggleMute() {
+          isMusicMuted = !isMusicMuted;
+          if (isIframeLoaded && musicYtIframe.contentWindow) {
+            musicYtIframe.contentWindow.postMessage(JSON.stringify({
+              event: 'command',
+              func: isMusicMuted ? 'mute' : 'unMute',
+              args: []
+            }), '*');
+          }
+          if (isMusicMuted) {
+            musicVolIcon.style.display = 'none';
+            musicMuteIcon.style.display = 'block';
+            musicMuteBtn.setAttribute('title', 'Unmute audio');
+          } else {
+            musicVolIcon.style.display = 'block';
+            musicMuteIcon.style.display = 'none';
+            musicMuteBtn.setAttribute('title', 'Mute audio');
+          }
+        }
+
+        function toggleVideoDrawer() {
+          musicVideoDrawer.classList.toggle('open');
+          if (musicVideoDrawer.classList.contains('open') && !isMusicPlaying) {
+            playMusic();
+          }
+        }
+
+        musicPlayBtn.addEventListener('click', toggleMusic);
+        musicInfoToggle.addEventListener('click', toggleVideoDrawer);
+        musicVideoToggleBtn.addEventListener('click', toggleVideoDrawer);
+        musicMuteBtn.addEventListener('click', toggleMute);
+        musicDrawerClose.addEventListener('click', () => {
+          musicVideoDrawer.classList.remove('open');
+        });
+
+        // Listen for YouTube postMessage events for state synchronization
+        window.addEventListener('message', (event) => {
+          try {
+            if (typeof event.data === 'string') {
+              const data = JSON.parse(event.data);
+              if (data.event === 'onStateChange') {
+                if (data.info === 1) {
+                  updateMusicUI(true);
+                } else if (data.info === 2 || data.info === 0) {
+                  updateMusicUI(false);
+                }
+              }
+            }
+          } catch (e) {}
         });
       })();
     </script>
