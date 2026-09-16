@@ -13,49 +13,77 @@
       }
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        background-color: #f8fafc;
-        color: #1e293b;
-        padding: 24px 16px;
+        background-color: #0b0f19;
+        color: #f1f5f9;
+        padding: 32px 16px 48px;
+        min-height: 100vh;
+        position: relative;
+        background-image: 
+          radial-gradient(circle at 50% 0%, rgba(30, 58, 138, 0.35) 0%, transparent 60%),
+          radial-gradient(circle at 10% 80%, rgba(15, 23, 42, 0.8) 0%, transparent 50%),
+          radial-gradient(circle at 90% 70%, rgba(30, 64, 175, 0.15) 0%, transparent 45%),
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+        background-attachment: fixed;
       }
       .container {
-        max-width: 900px;
+        max-width: 940px;
         margin: 0 auto;
+        position: relative;
+        z-index: 1;
       }
       header {
         text-align: center;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
       }
       h1 {
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 6px;
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 8px;
+        color: #ffffff;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
       }
       p.subtitle {
         font-size: 14px;
-        color: #64748b;
+        font-weight: 500;
+        color: #94a3b8;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
       }
       .photo-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
-        gap: 16px;
+        gap: 18px;
         width: 100%;
       }
       .photo-card {
-        background: #ffffff;
-        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 14px;
         overflow: hidden;
-        border: 1px solid #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
         display: flex;
         flex-direction: column;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        cursor: pointer;
+        user-select: none;
+      }
+      .photo-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(96, 165, 250, 0.4);
+        box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.15);
       }
       .image-wrapper {
         position: relative;
         width: 100%;
         padding-top: 100%; /* 1:1 Aspect Ratio (equal dimensions) */
         overflow: hidden;
-        background-color: #f1f5f9;
+        background-color: #0f172a;
       }
       .image-wrapper img {
         position: absolute;
@@ -64,20 +92,29 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform 0.35s ease;
+      }
+      .photo-card:hover .image-wrapper img {
+        transform: scale(1.04);
       }
       .title-wrapper {
-        padding: 12px 14px;
-        background-color: #ffffff;
+        padding: 13px 15px;
+        background-color: rgba(15, 23, 42, 0.95);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
       }
       .photo-title {
         font-size: 14px;
         font-weight: 600;
-        color: #0f172a;
+        color: #f1f5f9;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        letter-spacing: -0.01em;
       }
       @media (max-width: 640px) {
+        body {
+          padding: 20px 12px 32px;
+        }
         .photo-grid {
           grid-template-columns: repeat(3, 1fr);
           gap: 10px;
@@ -89,30 +126,307 @@
           font-size: 12px;
         }
       }
+
+      /* Floating Football Items Animation in the Background */
+      .bg-football-decor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+      }
+      .floating-item {
+        position: absolute;
+        opacity: 0.22;
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.7));
+        animation: floatItem linear infinite alternate;
+      }
+
+      @keyframes floatItem {
+        0% {
+          transform: translateY(0) rotate(0deg) scale(0.95);
+        }
+        50% {
+          transform: translateY(-28px) rotate(14deg) scale(1.05);
+        }
+        100% {
+          transform: translateY(-56px) rotate(-10deg) scale(1);
+        }
+      }
+
+      @keyframes tumbleItem {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-45px) rotate(360deg);
+        }
+      }
+
+      .f-1 { top: 6%; left: 3%; animation-duration: 9s; width: 72px; height: 72px; }
+      .f-2 { top: 22%; right: 4%; animation-duration: 11s; width: 88px; height: 88px; animation-direction: alternate-reverse; }
+      .f-3 { bottom: 12%; left: 5%; animation-duration: 13s; width: 84px; height: 84px; }
+      .f-4 { bottom: 18%; right: 6%; animation-duration: 10s; width: 80px; height: 80px; animation-direction: alternate-reverse; }
+      .f-5 { top: 48%; left: 2%; animation: tumbleItem 18s linear infinite; width: 68px; height: 68px; opacity: 0.16; }
+      .f-6 { top: 52%; right: 3%; animation-duration: 14s; width: 92px; height: 92px; }
+      .f-7 { top: 10%; left: 45%; animation-duration: 8s; width: 60px; height: 60px; opacity: 0.14; }
+      .f-8 { bottom: 4%; left: 42%; animation-duration: 12s; width: 76px; height: 76px; opacity: 0.18; }
+
+      /* Modal Backdrop & Dialog */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(4, 7, 15, 0.82);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+      }
+      .modal-backdrop.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-content {
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 35px rgba(59, 130, 246, 0.2);
+        border-radius: 20px;
+        max-width: 580px;
+        width: 100%;
+        overflow: hidden;
+        transform: scale(0.92) translateY(12px);
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .modal-backdrop.open .modal-content {
+        transform: scale(1) translateY(0);
+      }
+      .modal-close-btn {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #f1f5f9;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .modal-close-btn:hover {
+        background: rgba(239, 68, 68, 0.85);
+        border-color: rgba(239, 68, 68, 1);
+        transform: scale(1.08);
+      }
+      .modal-img-wrapper {
+        width: 100%;
+        max-height: 340px;
+        overflow: hidden;
+        background: #020617;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        max-height: 340px;
+        object-fit: cover;
+      }
+      .modal-body {
+        padding: 22px 24px 26px;
+      }
+      .modal-category {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #60a5fa;
+        background: rgba(37, 99, 235, 0.16);
+        border: 1px solid rgba(96, 165, 250, 0.28);
+        padding: 4px 10px;
+        border-radius: 9999px;
+        margin-bottom: 10px;
+      }
+      .modal-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+      }
+      .modal-desc {
+        font-size: 15px;
+        line-height: 1.65;
+        color: #cbd5e1;
+        margin: 0;
+      }
+      .click-hint {
+        display: inline-block;
+        font-size: 12px;
+        color: #60a5fa;
+        margin-top: 6px;
+        font-weight: 500;
+      }
     </style>
   </head>
   <body>
+    <!-- Football Themed Background Floating Elements -->
+    <div class="bg-football-decor" aria-hidden="true">
+      <!-- 1. American Football -->
+      <svg class="floating-item f-1" viewBox="0 0 100 100" fill="none">
+        <g transform="rotate(-35 50 50)">
+          <ellipse cx="50" cy="50" rx="42" ry="24" fill="#92400e" stroke="#fef08a" stroke-width="2.5" />
+          <path d="M 22 34 Q 26 50 22 66" stroke="#ffffff" stroke-width="3" fill="none" />
+          <path d="M 78 34 Q 74 50 78 66" stroke="#ffffff" stroke-width="3" fill="none" />
+          <line x1="30" y1="50" x2="70" y2="50" stroke="#ffffff" stroke-width="2.5" />
+          <line x1="38" y1="44" x2="38" y2="56" stroke="#ffffff" stroke-width="2.5" />
+          <line x1="46" y1="44" x2="46" y2="56" stroke="#ffffff" stroke-width="2.5" />
+          <line x1="54" y1="44" x2="54" y2="56" stroke="#ffffff" stroke-width="2.5" />
+          <line x1="62" y1="44" x2="62" y2="56" stroke="#ffffff" stroke-width="2.5" />
+        </g>
+      </svg>
+
+      <!-- 2. Football Helmet -->
+      <svg class="floating-item f-2" viewBox="0 0 100 100" fill="none">
+        <!-- Helmet Shell -->
+        <path d="M 50 15 C 28 15 14 30 14 55 C 14 74 25 80 44 80 L 44 70 C 32 70 24 64 24 54 C 24 37 34 26 50 26 C 68 26 78 37 78 52 C 78 60 74 66 66 66 L 66 76 C 80 76 88 66 88 52 C 88 28 72 15 50 15 Z" fill="#2563eb" stroke="#60a5fa" stroke-width="2" />
+        <path d="M 44 26 C 46 20 54 20 56 26 L 56 80 L 44 80 Z" fill="#ffffff" opacity="0.8" />
+        <!-- Face Mask / Grille -->
+        <path d="M 58 52 L 86 52 L 84 76 L 62 76" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        <line x1="72" y1="52" x2="72" y2="76" stroke="#cbd5e1" stroke-width="3" />
+        <line x1="80" y1="52" x2="78" y2="76" stroke="#cbd5e1" stroke-width="3" />
+        <!-- Ear Hole -->
+        <circle cx="48" cy="56" r="5" fill="#0b0f19" stroke="#60a5fa" stroke-width="2" />
+      </svg>
+
+      <!-- 3. Shoulder Pads -->
+      <svg class="floating-item f-3" viewBox="0 0 100 100" fill="none">
+        <!-- Arch & Pad Plates -->
+        <path d="M 12 40 C 20 28 36 28 44 38 C 47 41 53 41 56 38 C 64 28 80 28 88 40 C 94 48 90 60 78 58 C 72 56 68 50 62 48 C 56 46 44 46 38 48 C 32 50 28 56 22 58 C 10 60 6 48 12 40 Z" fill="#475569" stroke="#94a3b8" stroke-width="2.5" />
+        <!-- Shoulder Caps / Epaulets -->
+        <path d="M 10 44 C 6 52 10 64 22 66 C 26 58 24 48 18 44 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+        <path d="M 90 44 C 94 52 90 64 78 66 C 74 58 76 48 82 44 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+        <!-- Chest Straps / Rivets -->
+        <line x1="36" y1="46" x2="36" y2="68" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="2 3" />
+        <line x1="64" y1="46" x2="64" y2="68" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="2 3" />
+        <circle cx="50" cy="44" r="3" fill="#f59e0b" />
+      </svg>
+
+      <!-- 4. Goal Post (Uprights) -->
+      <svg class="floating-item f-4" viewBox="0 0 100 100" fill="none">
+        <!-- Center post -->
+        <line x1="50" y1="92" x2="50" y2="52" stroke="#eab308" stroke-width="5" stroke-linecap="round" />
+        <!-- Crossbar -->
+        <line x1="22" y1="52" x2="78" y2="52" stroke="#eab308" stroke-width="4.5" stroke-linecap="round" />
+        <!-- Uprights -->
+        <line x1="22" y1="52" x2="22" y2="12" stroke="#eab308" stroke-width="4" stroke-linecap="round" />
+        <line x1="78" y1="52" x2="78" y2="12" stroke="#eab308" stroke-width="4" stroke-linecap="round" />
+        <!-- Streamers / Ribbons on uprights -->
+        <path d="M 22 14 Q 15 18 20 25" stroke="#ef4444" stroke-width="2.5" fill="none" />
+        <path d="M 78 14 Q 85 18 80 25" stroke="#ef4444" stroke-width="2.5" fill="none" />
+      </svg>
+
+      <!-- 5. Spinning Football -->
+      <svg class="floating-item f-5" viewBox="0 0 100 100" fill="none">
+        <g transform="rotate(25 50 50)">
+          <ellipse cx="50" cy="50" rx="40" ry="23" fill="#78350f" stroke="#fbbf24" stroke-width="2" />
+          <path d="M 24 35 Q 27 50 24 65" stroke="#ffffff" stroke-width="2.5" fill="none" />
+          <path d="M 76 35 Q 73 50 76 65" stroke="#ffffff" stroke-width="2.5" fill="none" />
+          <line x1="32" y1="50" x2="68" y2="50" stroke="#ffffff" stroke-width="2.5" />
+          <line x1="40" y1="45" x2="40" y2="55" stroke="#ffffff" stroke-width="2" />
+          <line x1="50" y1="45" x2="50" y2="55" stroke="#ffffff" stroke-width="2" />
+          <line x1="60" y1="45" x2="60" y2="55" stroke="#ffffff" stroke-width="2" />
+        </g>
+      </svg>
+
+      <!-- 6. Retro Gold Helmet -->
+      <svg class="floating-item f-6" viewBox="0 0 100 100" fill="none">
+        <!-- Helmet Shell -->
+        <path d="M 50 16 C 30 16 16 30 16 54 C 16 72 26 78 44 78 L 44 68 C 34 68 26 62 26 53 C 26 38 35 27 50 27 C 66 27 76 38 76 51 C 76 59 72 65 64 65 L 64 75 C 78 75 86 65 86 51 C 86 28 70 16 50 16 Z" fill="#d97706" stroke="#fef08a" stroke-width="2" />
+        <!-- Face Mask -->
+        <path d="M 56 50 L 84 50 L 82 72 L 60 72" stroke="#e2e8f0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        <line x1="70" y1="50" x2="70" y2="72" stroke="#e2e8f0" stroke-width="3" />
+        <!-- Stripe -->
+        <path d="M 46 27 C 48 20 52 20 54 27 L 54 78 L 46 78 Z" fill="#ffffff" opacity="0.9" />
+        <circle cx="46" cy="54" r="5" fill="#0b0f19" stroke="#fde047" stroke-width="2" />
+      </svg>
+
+      <!-- 7. Referee Whistle & Penalty Flag -->
+      <svg class="floating-item f-7" viewBox="0 0 100 100" fill="none">
+        <!-- Yellow Penalty Flag -->
+        <path d="M 25 30 Q 40 22 55 32 Q 70 42 85 30 L 78 68 Q 62 80 48 65 L 25 30 Z" fill="#facc15" stroke="#ca8a04" stroke-width="2" opacity="0.85" />
+        <!-- Whistle -->
+        <circle cx="35" cy="62" r="14" fill="#94a3b8" stroke="#f8fafc" stroke-width="2" />
+        <rect x="35" y="54" width="26" height="10" rx="3" fill="#94a3b8" stroke="#f8fafc" stroke-width="2" />
+        <circle cx="35" cy="62" r="4" fill="#1e293b" />
+      </svg>
+
+      <!-- 8. Additional Football In Flight -->
+      <svg class="floating-item f-8" viewBox="0 0 100 100" fill="none">
+        <g transform="rotate(45 50 50)">
+          <ellipse cx="50" cy="50" rx="38" ry="22" fill="#854d0e" stroke="#fef08a" stroke-width="2" />
+          <path d="M 24 35 Q 28 50 24 65" stroke="#ffffff" stroke-width="2.5" fill="none" />
+          <path d="M 76 35 Q 72 50 76 65" stroke="#ffffff" stroke-width="2.5" fill="none" />
+          <line x1="30" y1="50" x2="70" y2="50" stroke="#ffffff" stroke-width="2" />
+          <line x1="42" y1="45" x2="42" y2="55" stroke="#ffffff" stroke-width="2" />
+          <line x1="50" y1="45" x2="50" y2="55" stroke="#ffffff" stroke-width="2" />
+          <line x1="58" y1="45" x2="58" y2="55" stroke="#ffffff" stroke-width="2" />
+        </g>
+      </svg>
+    </div>
+
     <div id="root">
       <div class="container">
         <header>
           <h1>Photo Album</h1>
-          <p class="subtitle">3 &times; 3 Photo Grid</p>
+          <p class="subtitle">3 &times; 3 Photo Grid &bull; Click any photo for details</p>
         </header>
 
         <main class="photo-grid">
-          <!-- ROW 1: AMERICAN FOOTBALL -->
+          <!-- ROW 1 -->
           <!-- Photo 1 -->
-          <article class="photo-card" id="photo-card-1">
+          <article 
+            class="photo-card" 
+            id="photo-card-1"
+            data-title="Game Breaker"
+            data-category="Gridiron Dominance"
+            data-desc="Elite playmaker cutting sharply upfield in full stride, evading defenders with dynamic footwork, explosive speed, and razor-sharp vision in front of a packed stadium."
+          >
             <div class="image-wrapper">
-              <img src="/images/ufl-player.png" alt="UFL Football Player" loading="lazy" />
+              <img src="/images/nfl-first-photo.jpg" alt="Football Player Making Cut Upfield" loading="lazy" />
             </div>
             <div class="title-wrapper">
-              <h2 class="photo-title">UFL Action</h2>
+              <h2 class="photo-title">Game Breaker</h2>
             </div>
           </article>
 
           <!-- Photo 2 -->
-          <article class="photo-card" id="photo-card-2">
+          <article 
+            class="photo-card" 
+            id="photo-card-2"
+            data-title="Slaughter vs. VT"
+            data-category="College Matchup"
+            data-desc="Gridiron showdown capturing defensive back Slaughter matching up against the Virginia Tech Hokies offense, anticipating the route and breaking on the ball."
+          >
             <div class="image-wrapper">
               <img src="/images/slaughter-vs-vt.jpg" alt="Slaughter vs VT Game Action" loading="lazy" />
             </div>
@@ -122,18 +436,30 @@
           </article>
 
           <!-- Photo 3 -->
-          <article class="photo-card" id="photo-card-3">
+          <article 
+            class="photo-card" 
+            id="photo-card-3"
+            data-title="arch throwing tha bih"
+            data-category="Quarterback Cannon"
+            data-desc="Arch in the pocket stepping into a clean throwing motion, cocking back and launching a deep spiral downfield into tight coverage under the stadium lights."
+          >
             <div class="image-wrapper">
-              <img src="/images/nfl-game.jpg" alt="NFL Game Action" loading="lazy" />
+              <img src="/images/nfl-game.jpg" alt="Arch Throwing Play" loading="lazy" />
             </div>
             <div class="title-wrapper">
-              <h2 class="photo-title">NFL Kickoff</h2>
+              <h2 class="photo-title">arch throwing tha bih</h2>
             </div>
           </article>
 
-          <!-- ROW 2: VIDEO GAMES -->
+          <!-- ROW 2 -->
           <!-- Photo 4 -->
-          <article class="photo-card" id="photo-card-4">
+          <article 
+            class="photo-card" 
+            id="photo-card-4"
+            data-title="Vicari vs. Towson"
+            data-category="NCAA Battle"
+            data-desc="Relentless trenches and open-field battle pitting Vicari against the Towson Tigers defense, showcasing split-second read-and-react defensive leverage."
+          >
             <div class="image-wrapper">
               <img src="/images/vicari-towson.jpg" alt="Vicari Towson Football Action" loading="lazy" />
             </div>
@@ -143,7 +469,13 @@
           </article>
 
           <!-- Photo 5 -->
-          <article class="photo-card" id="photo-card-5">
+          <article 
+            class="photo-card" 
+            id="photo-card-5"
+            data-title="Oklahoma Victory"
+            data-category="Team Celebration"
+            data-desc="The Oklahoma Sooners erupting in jubilation following a decisive fourth-quarter goal-line stand and game-sealing touchdown in front of a roaring home crowd."
+          >
             <div class="image-wrapper">
               <img src="/images/ou-celebration.jpg" alt="Oklahoma Sooners Football Celebration" loading="lazy" />
             </div>
@@ -153,7 +485,13 @@
           </article>
 
           <!-- Photo 6 -->
-          <article class="photo-card" id="photo-card-6">
+          <article 
+            class="photo-card" 
+            id="photo-card-6"
+            data-title="Fighting Irish"
+            data-category="Historic Tradition"
+            data-desc="Notre Dame Fighting Irish taking the field with their iconic golden helmets and navy jerseys, locked in for an intense prime-time collegiate rivalry showdown."
+          >
             <div class="image-wrapper">
               <img src="/images/notre-dame.jpg" alt="Notre Dame Fighting Irish Football Action" loading="lazy" />
             </div>
@@ -162,19 +500,31 @@
             </div>
           </article>
 
-          <!-- ROW 3: BOXING -->
+          <!-- ROW 3 -->
           <!-- Photo 7 -->
-          <article class="photo-card" id="photo-card-7">
+          <article 
+            class="photo-card" 
+            id="photo-card-7"
+            data-title="mali toney"
+            data-category="Gridiron Star"
+            data-desc="Mali Toney showing explosive burst off the line of scrimmage, cutting through defensive pursuit with signature agility, vision, and determination."
+          >
             <div class="image-wrapper">
               <img src="/images/college-football-action.jpg" alt="College Football Game Action" loading="lazy" />
             </div>
             <div class="title-wrapper">
-              <h2 class="photo-title">Game Day Intensity</h2>
+              <h2 class="photo-title">mali toney</h2>
             </div>
           </article>
 
           <!-- Photo 8 -->
-          <article class="photo-card" id="photo-card-8">
+          <article 
+            class="photo-card" 
+            id="photo-card-8"
+            data-title="On The Run"
+            data-category="Ball Carrier Play"
+            data-desc="Ball carrier on the perimeter tucking the football high and tight, stiff-arming oncoming tacklers while turning the corner toward the pylon."
+          >
             <div class="image-wrapper">
               <img src="/images/football-player-running.jpg" alt="Football Player Running Play" loading="lazy" />
             </div>
@@ -184,7 +534,13 @@
           </article>
 
           <!-- Photo 9 -->
-          <article class="photo-card" id="photo-card-9">
+          <article 
+            class="photo-card" 
+            id="photo-card-9"
+            data-title="Washington St. vs. Boise St."
+            data-category="Northwest Clash"
+            data-desc="High-stakes matchup between Washington State Cougars and Boise State Broncos, battling through trench warfare and contested aerial passes."
+          >
             <div class="image-wrapper">
               <img src="/images/washington-st-boise-st.jpg" alt="Washington State vs Boise State Football Action" loading="lazy" />
             </div>
@@ -195,5 +551,84 @@
         </main>
       </div>
     </div>
+
+    <!-- Description Modal Popup -->
+    <div id="photo-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-content" id="modal-content">
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close photo description">&times;</button>
+        <div class="modal-img-wrapper">
+          <img id="modal-img" src="" alt="Selected photo preview" />
+        </div>
+        <div class="modal-body">
+          <span class="modal-category" id="modal-category">Game Detail</span>
+          <h2 class="modal-title" id="modal-title">Photo Title</h2>
+          <p class="modal-desc" id="modal-desc">Photo description will appear here.</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalCategory = document.getElementById('modal-category');
+        const modalDesc = document.getElementById('modal-desc');
+        const closeBtn = document.getElementById('modal-close-btn');
+        const cards = document.querySelectorAll('.photo-card');
+
+        function openModal(card) {
+          const img = card.querySelector('img');
+          const title = card.getAttribute('data-title') || card.querySelector('.photo-title').textContent;
+          const category = card.getAttribute('data-category') || 'Football Highlight';
+          const desc = card.getAttribute('data-desc') || 'Exciting football game day photo.';
+
+          if (img) {
+            modalImg.src = img.src;
+            modalImg.alt = img.alt || title;
+          }
+          modalTitle.textContent = title;
+          modalCategory.textContent = category;
+          modalDesc.textContent = desc;
+
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        cards.forEach(card => {
+          card.addEventListener('click', () => openModal(card));
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('role', 'button');
+          card.setAttribute('aria-label', `View details for ${card.getAttribute('data-title') || 'photo'}`);
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              openModal(card);
+            }
+          });
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            closeModal();
+          }
+        });
+
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('open')) {
+            closeModal();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
